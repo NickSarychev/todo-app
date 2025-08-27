@@ -10,26 +10,26 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	auth := router.Group("/auth")
 	{
-		auth.POST("/sign-up")
-		auth.POST("/sign-in")
+		auth.POST("/sign-up", h.signUp)
+		auth.POST("/sign-in", h.signIn)
 	}
 	api := router.Group("/api")
 	{
-		lists := api.Group("/api")
+		lists := api.Group("/list")
 		{
-			lists.POST("/")
-			lists.GET("/")
-			lists.GET("/:id")
-			lists.PUT("/:id")
-			lists.DELETE("/:id")
+			lists.POST("/", h.createList)
+			lists.GET("/", h.getAllList)
+			lists.GET("/:id", h.getListById)
+			lists.PUT("/:id", h.updateList)
+			lists.DELETE("/:id", h.deleteList)
 
 			items := lists.Group(":id/items")
 			{
-				items.POST("/")
-				items.GET("/")
-				items.GET("/:item_id")
-				items.PUT("/:id")
-				items.DELETE("/:id")
+				items.POST("/", h.createItem)
+				items.GET("/", h.getAllItem)
+				items.GET("/:item_id", h.getItemById)
+				items.PUT("/:id", h.updateItem)
+				items.DELETE("/:id", h.deleteItem)
 			}
 		}
 	}
