@@ -2,9 +2,17 @@ package repository
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/sirupsen/logrus"
+)
+
+const (
+	usersTable      = "users"
+	todoListsTable  = "todo_lists"
+	usersListsTable = "users_lists"
+	todoItemsTable  = "todo_items"
+	listItemsTable  = "lists_items"
 )
 
 type Config struct {
@@ -20,7 +28,7 @@ func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
 	connectionString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		cfg.Host, cfg.Port, cfg.Username, cfg.Password, cfg.DBName, cfg.SSLMode)
 
-	log.Printf("Connection string: %s", connectionString) // Для отладки
+	logrus.Printf("Connection string: %s", connectionString) // Для отладки
 
 	db, err := sqlx.Open("postgres", connectionString)
 	if err != nil {
