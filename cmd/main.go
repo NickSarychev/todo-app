@@ -2,11 +2,13 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/NickSarychev/todo-app"
 	"github.com/NickSarychev/todo-app/pkg/handler"
 	"github.com/NickSarychev/todo-app/pkg/repository"
 	"github.com/NickSarychev/todo-app/pkg/service"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
 )
@@ -16,13 +18,17 @@ func main() {
 		log.Fatalf("error initializing configs: %s", err.Error())
 	}
 
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("error loading env variabes: %s", err.Error())
+	}
+
 	dbConfig := repository.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		Username: viper.GetString("db.username"),
-		Password: viper.GetString("db.password"),
 		DBName:   viper.GetString("db.dbname"),
 		SSLMode:  viper.GetString("db.sslmode"),
+		Password: os.Getenv("DB_PASSWORD"),
 	}
 
 	if !viper.IsSet("db.username") {
