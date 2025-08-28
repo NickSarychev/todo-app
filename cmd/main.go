@@ -7,6 +7,7 @@ import (
 	"github.com/NickSarychev/todo-app/pkg/handler"
 	"github.com/NickSarychev/todo-app/pkg/repository"
 	"github.com/NickSarychev/todo-app/pkg/service"
+	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
 )
 
