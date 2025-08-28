@@ -16,16 +16,22 @@ func main() {
 		log.Fatalf("error initializing configs: %s", err.Error())
 	}
 
-	db, err := repository.NewPostgresDB(repository.Config{
-		Host:     "localhost",
-		Port:     "5436",
-		Username: "postgres",
-		Password: "qwerty",
-		DBName:   "postgres",
-		SSLMode:  "disable",
-	})
+	dbConfig := repository.Config{
+		Host:     viper.GetString("db.host"),
+		Port:     viper.GetString("db.port"),
+		Username: viper.GetString("db.username"),
+		Password: viper.GetString("db.password"),
+		DBName:   viper.GetString("db.dbname"),
+		SSLMode:  viper.GetString("db.sslmode"),
+	}
+
+	if !viper.IsSet("db.username") {
+		log.Fatal("db.username not set in config")
+	}
+
+	db, err := repository.NewPostgresDB(dbConfig)
 	if err != nil {
-		log.Fatalf("failed to inicialize db: %s", err.Error())
+		log.Fatalf("failed to initialize db: %s", err.Error())
 	}
 
 	repos := repository.NewRepository(db)
