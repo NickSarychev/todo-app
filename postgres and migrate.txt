@@ -1,0 +1,20 @@
+Terminal 
+docker pull postgres
+docker run --name=todo-db -e POSTGRES_PASSWORD='qwerty' -p 5436:5432 -d postgres //создаем базу postgres на 5436 потру,
+ тут можно добавить после порта флаг --rm это позволит удалиться базы после ее остановки
+
+docker ps // проверка бд
+ 
+После создания бд делаем миграцию.
+Срздаем файлы миграции
+migrate create -ext sql -dir ./schema -seq init // после этой ккоманды будут созданы файлы миграции 000001_init.up и 000001_init.down в папке schema в текущий дериктории
+
+migrate -path ./schema -database 'postgres://postgres:qwerty@localhost:5436/postgres?sslmode=disable' up   // создает таблицы вся структура описана в файле миграций ( 000001_init.up )
+migrate -path ./schema -database 'postgres://postgres:qwerty@localhost:5436/postgres?sslmode=disable' down // дропает таблицы 000001_init.down
+
+docker ps // првоеряем создалась ли база и берем из не id базы для запуска в следующей строке, в моем случае это 035eb1d29b10
+docker exec -it 035eb1d29b10 /bin/sh заходим в postgres
+
+psql -U postgres запускаем psql для запросов к бд 
+
+
