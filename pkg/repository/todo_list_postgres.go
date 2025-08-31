@@ -80,7 +80,7 @@ func (r *TodoListPostgres) Update(userId, listId int, input todo.UpdateListInput
 	/*
 		title = 'updated title' // $1
 		description = 'update description' // $1
-		title = 'update titile' //$1, description='update description' //$2
+		title = 'update title' //$1, description='update description' //$2
 	*/
 	setQuery := strings.Join(setValues, ", ")
 
