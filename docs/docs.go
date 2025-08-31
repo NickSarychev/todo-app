@@ -28,6 +28,7 @@ const docTemplate = `{
                     "auth"
                 ],
                 "summary": "SignIn",
+                "operationId": "login-account",
                 "parameters": [
                     {
                         "description": "credentials",
@@ -74,6 +75,7 @@ const docTemplate = `{
                     "auth"
                 ],
                 "summary": "SignUp",
+                "operationId": "create-account",
                 "parameters": [
                     {
                         "description": "account info",

@@ -40,6 +40,7 @@ paths:
       consumes:
       - application/json
       description: login
+      operationId: login-account
       parameters:
       - description: credentials
         in: body
@@ -70,6 +71,7 @@ paths:
       consumes:
       - application/json
       description: create account
+      operationId: create-account
       parameters:
       - description: account info
         in: body

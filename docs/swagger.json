@@ -22,6 +22,7 @@
                     "auth"
                 ],
                 "summary": "SignIn",
+                "operationId": "login-account",
                 "parameters": [
                     {
                         "description": "credentials",
@@ -68,6 +69,7 @@
                     "auth"
                 ],
                 "summary": "SignUp",
+                "operationId": "create-account",
                 "parameters": [
                     {
                         "description": "account info",

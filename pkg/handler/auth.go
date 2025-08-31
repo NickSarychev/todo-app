@@ -16,6 +16,7 @@ import (
 // @Success 200 {integer} integer 1
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
+// @ID create-account
 // @Router /auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
 	var input todo.User
@@ -50,6 +51,7 @@ type signInInput struct {
 // @Success 200 {string} string "token"
 // @Failure 400 {object} errorResponse
 // @Failure 500 {object} errorResponse
+// @ID login-account
 // @Router /auth/sign-in [post]
 func (h *Handler) signIn(c *gin.Context) {
 	var input signInInput

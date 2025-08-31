@@ -20,6 +20,7 @@ import (
 // @Failure 400,404 {object} errorResponce
 // @Failure 500 {object} errorResponce
 // @Failure default {object} errorResponce
+// @ID create-list
 // @Router /api/lists [post]
 
 func (h *Handler) createList(c *gin.Context) {
