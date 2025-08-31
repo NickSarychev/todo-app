@@ -16,13 +16,11 @@ import (
 // @Accept json
 // @Produce json
 // @Param input body todo.TodoList true "list info"
-// @Succes 200 {integer} integer 1
-// @Failure 400,404 {object} errorResponce
-// @Failure 500 {object} errorResponce
-// @Failure default {object} errorResponce
-// @ID create-list
+// @Success 200 {integer} map[string]int "id of created list"
+// @Failure 400,404 {object} handler.ErrorResponse
+// @Failure 500 {object} handler.ErrorResponse
+// @Failure default {object} handler.ErrorResponse
 // @Router /api/lists [post]
-
 func (h *Handler) createList(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -44,10 +42,17 @@ func (h *Handler) createList(c *gin.Context) {
 	})
 }
 
-type getAllListsResponse struct {
-	Data []todo.TodoList `json:"data"`
-}
-
+// @Summary Get all lists
+// @Security ApiKeyAuth
+// @Tags lists
+// @Description get all todo lists
+// @ID get-all-lists
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} handler.GetAllListsResponse
+// @Failure 400 {object} handler.ErrorResponse
+// @Failure 500 {object} handler.ErrorResponse
+// @Router /api/lists [get]
 func (h *Handler) getAllList(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -59,11 +64,25 @@ func (h *Handler) getAllList(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, getAllListsResponse{
+	c.JSON(http.StatusOK, GetAllListsResponse{
 		Data: lists,
 	})
 
 }
+
+// @Summary Get list by id
+// @Security ApiKeyAuth
+// @Tags lists
+// @Description get todo list by id
+// @ID get-list-by-id
+// @Accept  json
+// @Produce  json
+// @Param id path int true "List ID"
+// @Success 200 {object} todo.TodoList
+// @Failure 400 {object} handler.ErrorResponse
+// @Failure 404 {object} handler.ErrorResponse
+// @Failure 500 {object} handler.ErrorResponse
+// @Router /api/lists/{id} [get]
 func (h *Handler) getListById(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -76,7 +95,7 @@ func (h *Handler) getListById(c *gin.Context) {
 		return
 	}
 
-	items, err := h.services.TodoItem.GetById(userId, itemId)
+	items, err := h.services.TodoList.GetById(userId, itemId)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -84,6 +103,21 @@ func (h *Handler) getListById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, items)
 }
+
+// @Summary Update list
+// @Security ApiKeyAuth
+// @Tags lists
+// @Description update todo list
+// @ID update-list
+// @Accept  json
+// @Produce  json
+// @Param id path int true "List ID"
+// @Param input body todo.UpdateListInput true "update info"
+// @Success 200 {object} handler.StatusResponse
+// @Failure 400 {object} handler.ErrorResponse
+// @Failure 404 {object} handler.ErrorResponse
+// @Failure 500 {object} handler.ErrorResponse
+// @Router /api/lists/{id} [put]
 func (h *Handler) updateList(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -105,10 +139,24 @@ func (h *Handler) updateList(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, statusResponse{
+	c.JSON(http.StatusOK, StatusResponse{
 		Status: "ok",
 	})
 }
+
+// @Summary Delete list
+// @Security ApiKeyAuth
+// @Tags lists
+// @Description delete todo list
+// @ID delete-list
+// @Accept  json
+// @Produce  json
+// @Param id path int true "List ID"
+// @Success 200 {object} handler.StatusResponse
+// @Failure 400 {object} handler.ErrorResponse
+// @Failure 404 {object} handler.ErrorResponse
+// @Failure 500 {object} handler.ErrorResponse
+// @Router /api/lists/{id} [delete]
 func (h *Handler) deleteList(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -126,7 +174,7 @@ func (h *Handler) deleteList(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, statusResponse{
+	c.JSON(http.StatusOK, StatusResponse{
 		Status: "ok",
 	})
 }

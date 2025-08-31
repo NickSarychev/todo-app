@@ -1,18 +1,23 @@
 package handler
 
 import (
+	"github.com/NickSarychev/todo-app"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
 
-type errorResponse struct {
-	Massage string `json:"massage"`
+type ErrorResponse struct {
+	Message string `json:"message"`
 }
-type statusResponse struct {
+type StatusResponse struct {
 	Status string `json:"status"`
 }
 
-func newErrorResponse(c *gin.Context, statusCode int, massage string) {
-	logrus.Error(massage)
-	c.AbortWithStatusJSON(statusCode, errorResponse{Massage: massage})
+type GetAllListsResponse struct {
+	Data []todo.TodoList `json:"data"`
+}
+
+func newErrorResponse(c *gin.Context, statusCode int, message string) {
+	logrus.Error(message)
+	c.AbortWithStatusJSON(statusCode, ErrorResponse{Message: message})
 }

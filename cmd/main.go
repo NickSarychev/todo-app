@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	"github.com/NickSarychev/todo-app"
+	_ "github.com/NickSarychev/todo-app/docs"
 	"github.com/NickSarychev/todo-app/pkg/handler"
 	"github.com/NickSarychev/todo-app/pkg/repository"
 	"github.com/NickSarychev/todo-app/pkg/service"
@@ -16,16 +17,13 @@ import (
 	"github.com/spf13/viper"
 )
 
-// @title Todo App API
-// @version 1.0
-// @description API Server for TodoList Application
-
 // @host localhost:8000
 // @BasePath /
 
-// @secyrityDefinitions.apikey ApiKeyAuth
+// @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
+// @description Type "Bearer" followed by a space and JWT token. Example: "Bearer abcde12345"
 
 func main() {
 
@@ -65,9 +63,6 @@ func main() {
 	go func() {
 		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 			logrus.Fatalf("error occured while running http server %s", err.Error())
-		}
-		if err := viper.ReadInConfig(); err != nil {
-			logrus.Fatalf("Error reading config: %v", err)
 		}
 	}()
 	quit := make(chan os.Signal, 1)

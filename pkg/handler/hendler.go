@@ -9,6 +9,9 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 type Handler struct {
 	services *service.Service
 }

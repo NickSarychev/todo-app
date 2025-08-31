@@ -14,9 +14,10 @@ import (
 // @Produce  json
 // @Param input body todo.User true "account info"
 // @Success 200 {integer} integer 1
-// @Failure 400 {object} errorResponse
-// @Failure 500 {object} errorResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
 // @ID create-account
+// @Security
 // @Router /auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
 	var input todo.User
@@ -49,9 +50,10 @@ type signInInput struct {
 // @Produce  json
 // @Param input body signInInput true "credentials"
 // @Success 200 {string} string "token"
-// @Failure 400 {object} errorResponse
-// @Failure 500 {object} errorResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
 // @ID login-account
+// @Security
 // @Router /auth/sign-in [post]
 func (h *Handler) signIn(c *gin.Context) {
 	var input signInInput
@@ -68,6 +70,6 @@ func (h *Handler) signIn(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": token,
+		"token": token,
 	})
 }
