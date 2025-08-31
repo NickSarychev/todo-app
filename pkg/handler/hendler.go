@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"github.com/NickSarychev/todo-app/docs"
 	"github.com/NickSarychev/todo-app/pkg/service"
 	"github.com/gin-gonic/gin"
 
 	_ "github.com/NickSarychev/todo-app/docs"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Handler struct {
@@ -17,6 +20,15 @@ func NewHandler(sevices *service.Service) *Handler {
 
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
+
+	docs.SwaggerInfo.Title = "Todo App API"
+	docs.SwaggerInfo.Description = "REST API for Todo Application"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost:8000"
+	docs.SwaggerInfo.BasePath = "/"
+	docs.SwaggerInfo.Schemes = []string{"http"}
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	auth := router.Group("/auth")
 	{

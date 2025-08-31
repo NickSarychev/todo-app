@@ -7,7 +7,6 @@ import (
 	"syscall"
 
 	"github.com/NickSarychev/todo-app"
-	"github.com/NickSarychev/todo-app/docs"
 	"github.com/NickSarychev/todo-app/pkg/handler"
 	"github.com/NickSarychev/todo-app/pkg/repository"
 	"github.com/NickSarychev/todo-app/pkg/service"
@@ -61,13 +60,6 @@ func main() {
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
-
-	docs.SwaggerInfo.Title = "Todo App API"
-	docs.SwaggerInfo.Description = "REST API for Todo Application"
-	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = "localhost:8000"
-	docs.SwaggerInfo.BasePath = "/"
-	docs.SwaggerInfo.Schemes = []string{"http"}
 
 	srv := new(todo.Server)
 	go func() {
