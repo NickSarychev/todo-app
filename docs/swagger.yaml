@@ -1,9 +1,19 @@
 basePath: /
 definitions:
-  handler.errorResponce:
+  handler.errorResponse:
     properties:
       massage:
         type: string
+    type: object
+  handler.signInInput:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
     type: object
   todo.User:
     properties:
@@ -25,12 +35,41 @@ info:
   title: Todo App API
   version: "1.0"
 paths:
+  /auth/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: login
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.signInInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: SignIn
+      tags:
+      - auth
   /auth/sign-up:
     post:
       consumes:
       - application/json
       description: create account
-      operationId: create-account
       parameters:
       - description: account info
         in: body
@@ -41,22 +80,18 @@ paths:
       produces:
       - application/json
       responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/handler.errorResponce'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/handler.errorResponce'
+            $ref: '#/definitions/handler.errorResponse'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/handler.errorResponce'
-        default:
-          description: ""
-          schema:
-            $ref: '#/definitions/handler.errorResponce'
+            $ref: '#/definitions/handler.errorResponse'
       summary: SignUp
       tags:
       - auth

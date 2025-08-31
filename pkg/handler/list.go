@@ -104,7 +104,7 @@ func (h *Handler) updateList(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, statusResponce{
+	c.JSON(http.StatusOK, statusResponse{
 		Status: "ok",
 	})
 }
@@ -125,7 +125,7 @@ func (h *Handler) deleteList(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, statusResponce{
+	c.JSON(http.StatusOK, statusResponse{
 		Status: "ok",
 	})
 }

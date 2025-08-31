@@ -3,6 +3,8 @@ package handler
 import (
 	"github.com/NickSarychev/todo-app/pkg/service"
 	"github.com/gin-gonic/gin"
+
+	_ "github.com/NickSarychev/todo-app/docs"
 )
 
 type Handler struct {
